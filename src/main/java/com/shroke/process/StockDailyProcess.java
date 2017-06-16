@@ -13,6 +13,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -22,13 +23,14 @@ import java.util.List;
 /**
  * Created by shroke on 2017/6/3.
  */
-public class MainProcess {
+@Service
+public class StockDailyProcess {
     private static List<String> urls = Lists.newArrayList();
-    public static final Logger logger = LoggerFactory.getLogger(MainProcess.class);
+    public static final Logger logger = LoggerFactory.getLogger(StockDailyProcess.class);
 
     public static void main(String[] agrs) throws IOException {
-        MainProcess mainProcess = new MainProcess();
-        mainProcess.processDaily();
+        StockDailyProcess mainProcess = new StockDailyProcess();
+        mainProcess.processDaily("1");
     }
 
 
@@ -97,9 +99,9 @@ public class MainProcess {
         }
     }
 
-    private void processDaily()throws IOException{
+    public void processDaily(String type)throws IOException{
         HttpClient httpClient = HttpClients.createDefault();
-        String type = "1" ;
+        //String type = "2" ;
         HttpGet request = new HttpGet("http://quote.tool.hexun.com/hqzx/quote.aspx?type="+type+"&market=2&sorttype=3&updown=up&page=1&count=5000&time=215450");
 
         HttpResponse response = null;
