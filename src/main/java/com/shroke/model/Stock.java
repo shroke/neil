@@ -3,14 +3,17 @@ package com.shroke.model;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.math.BigDecimal;
 import java.sql.Date;
 
 /**
  * Created by shroke on 2017/5/30.
  */
-public class Stock {
-    private String stockode;
+public class Stock  extends BaseEntity {
+    @Column(name="stock_code")
+    private String stockCode;
     private String name;
 
     @Column(name="exchange_id")
@@ -25,14 +28,26 @@ public class Stock {
     private long tradableShares;
     @Column(name="current_price")
     private BigDecimal currentPrice;
-    private StockStatus status;
+    @Column(name="stock_status")
+    @Enumerated(EnumType.STRING)
+    private StockStatus stockStatus;
 
-    public String getStockode() {
-        return stockode;
+    private CompanyProfile companyProfile;
+
+    public CompanyProfile getCompanyProfile() {
+        return companyProfile;
     }
 
-    public void setStockode(String stockode) {
-        this.stockode = stockode;
+    public void setCompanyProfile(CompanyProfile companyProfile) {
+        this.companyProfile = companyProfile;
+    }
+
+    public String getStockCode() {
+        return stockCode;
+    }
+
+    public void setStockCode(String stockCode) {
+        this.stockCode = stockCode;
     }
 
     public String getName() {
@@ -91,16 +106,12 @@ public class Stock {
         this.currentPrice = currentPrice;
     }
 
-    public StockStatus getStatus() {
-        return status;
+    public StockStatus getStockStatus() {
+        return stockStatus;
     }
 
-    public void setStatus(StockStatus status) {
-        this.status = status;
-    }
-
-    public enum  StockStatus {
-        STOP, ACTIVE, OTHER;
+    public void setStockStatus(StockStatus stockStatus) {
+        this.stockStatus = stockStatus;
     }
 
     @Override

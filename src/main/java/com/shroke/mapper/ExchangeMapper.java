@@ -12,4 +12,6 @@ public interface ExchangeMapper extends MyMapper<Exchange> {
 
     @Select("select id,name,insert_time as insertTime,update_time as updateTime from exchange where name =#{name}")
     public Exchange getByName(@Param(value = "name")String name);
+
+
 }

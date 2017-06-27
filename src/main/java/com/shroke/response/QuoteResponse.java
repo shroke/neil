@@ -10,7 +10,6 @@ import java.sql.Date;
  */
 public class QuoteResponse {
     //代码	名称	最新价	涨跌幅	昨收	今开	最高	最低	成交量	成交额	换手	振幅	量比
-    private String from;
     private Date date;
     private String stockCode;
     private String stockName;
@@ -24,14 +23,6 @@ public class QuoteResponse {
     private BigDecimal turnoverPrice;
     private BigDecimal amplitude;
     private BigDecimal kdj;
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
 
     public Date getDate() {
         return date;

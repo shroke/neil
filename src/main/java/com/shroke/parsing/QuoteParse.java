@@ -12,25 +12,27 @@ import javax.script.ScriptException;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Created by shroke on 2017/6/12.
  */
-public class DailyFileParse {
-    public static final Logger logger = LoggerFactory.getLogger(DailyFileParse.class);
+public class QuoteParse {
+    public static final Logger logger = LoggerFactory.getLogger(QuoteParse.class);
 
-    public static void process(String from,String source){
+    public List<QuoteResponse> process(String source){
         try {
-            processSource(from,source);
+            return processSource(source);
         }catch(ScriptException se){
             logger.error(LogMessageBuilder.MESSAGE_HOLDER
                     ,new LogMessageBuilder(se.getMessage()).addParameter("source",source),se);
+            return Collections.emptyList();
         }
     }
 
-    public static void processSource(String from,String source) throws ScriptException{
+    private List<QuoteResponse> processSource(String source) throws ScriptException{
         ScriptEngineManager mgr = new ScriptEngineManager();
         ScriptEngine engine = mgr.getEngineByName("nashorn");
         engine.eval("var StockListPage = {};");
@@ -47,7 +49,6 @@ public class DailyFileParse {
             //'600209','罗顿发展',12.73,10.03,  11.57,  11.52,  12.73,   11.45, 487910.03,597550224,11.44,11.06,1.71
             try {
                 QuoteResponse quote = new QuoteResponse();
-                quote.setFrom(from);
                 quote.setDate(date);
                 quote.setStockCode((String) dataMap.get("0"));
                 quote.setStockName((String) dataMap.get("1"));
@@ -71,7 +72,6 @@ public class DailyFileParse {
             }
         }
         logger.debug(LogMessageBuilder.MESSAGE_HOLDER,quoteList);
-
-        //TODO   持久化到
+        return quoteList;
     }
 }
